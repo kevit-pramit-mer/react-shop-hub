@@ -121,35 +121,65 @@ const Home = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4 py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+      <div className="container mx-auto px-4 py-12">
         {/* Header */}
-        <div className="mb-8">
-          <h1 className="text-4xl font-bold text-gray-900 mb-2">
+        <div className="text-center mb-8 md:mb-12">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">
             Discover Amazing Products
           </h1>
-          <p className="text-gray-600">
-            Browse our collection of {allProducts.length}+ products
+          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
+            Explore our curated collection of quality products. From electronics to fashion, find everything you need in one place with unbeatable prices and fast shipping.
           </p>
         </div>
 
         {/* Search and Sort Bar */}
-        <div className="mb-6 flex flex-col md:flex-row gap-4">
-          <div className="flex-grow">
-            <SearchBar onSearch={handleSearch} />
-          </div>
-          <div className="md:w-48">
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              className="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
-            >
-              {SORT_OPTIONS.map((option) => (
-                <option key={option.value} value={option.value}>
-                  {option.label}
-                </option>
-              ))}
-            </select>
+        <div className="mb-8">
+          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 md:p-6">
+            <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
+              {/* Search Section */}
+              <div className="flex-grow">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Search Products
+                </label>
+                <SearchBar onSearch={handleSearch} />
+              </div>
+              
+              {/* Divider - Hidden on mobile */}
+              <div className="hidden md:block w-px bg-gray-200 self-stretch my-2"></div>
+              
+              {/* Sort Section */}
+              <div className="md:w-64">
+                <label className="block text-sm font-semibold text-gray-700 mb-2">
+                  Sort By
+                </label>
+                <div className="relative">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full pl-10 pr-10 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium cursor-pointer appearance-none transition-all hover:border-gray-400"
+                  >
+                    {SORT_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                  {/* Sort Icon */}
+                  <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                    </svg>
+                  </div>
+                  {/* Dropdown Arrow */}
+                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
+                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                    </svg>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
 

@@ -69,9 +69,9 @@ const Contact = () => {
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
-          <div className="text-center mb-12">
-            <h1 className="text-5xl font-bold mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Get In Touch</h1>
-            <p className="text-gray-600 text-lg">We'd love to hear from you! Send us a message and we'll respond as soon as possible.</p>
+          <div className="text-center mb-8 md:mb-12">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">Get In Touch</h1>
+            <p className="text-gray-600 text-base md:text-lg">We'd love to hear from you! Send us a message and we'll respond as soon as possible.</p>
           </div>
         
           <div className="grid md:grid-cols-2 gap-8">
