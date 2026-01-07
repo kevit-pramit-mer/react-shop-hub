@@ -15,7 +15,7 @@ const Navbar = () => {
   const { logout } = useAuth();
 
   return (
-    <nav className="bg-white shadow-md sticky top-0 z-50">
+    <nav className="bg-white shadow-lg sticky top-0 z-50 border-b border-gray-200">
       <div className="container mx-auto px-4">
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
@@ -78,7 +78,7 @@ const Navbar = () => {
             ) : (
               <Link
                 to="/login"
-                className="text-sm px-4 py-2 bg-primary text-white hover:bg-blue-600 rounded-lg transition"
+                className="text-sm px-6 py-2.5 bg-gradient-to-r from-blue-600 to-blue-700 text-white hover:from-blue-700 hover:to-blue-800 rounded-lg transition-all shadow-lg hover:shadow-xl font-semibold transform hover:scale-105"
               >
                 Login
               </Link>

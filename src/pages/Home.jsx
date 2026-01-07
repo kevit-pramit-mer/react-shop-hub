@@ -1,8 +1,7 @@
-import React, { useEffect, useCallback } from 'react';
+import React, { useEffect, useCallback, useRef } from 'react';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../services/productService';
 import { useProductFilters } from '../hooks/useProductFilters';
-import { useIntersectionObserver } from '../hooks/useIntersectionObserver';
 import ProductGrid from '../components/product/ProductGrid';
 import ProductFilter from '../components/product/ProductFilter';
 import SearchBar from '../components/product/SearchBar';
@@ -54,17 +53,30 @@ const Home = () => {
     hasActiveFilters,
   } = useProductFilters(allProducts);
 
-  // Infinite scroll with intersection observer
-  const { ref: loadMoreRef, isIntersecting } = useIntersectionObserver({
-    threshold: 0.1,
-  });
+  // Infinite scroll with scroll event listener
+  const loadMoreRef = useRef(null);
 
-  // Load more when scrolling to bottom
   useEffect(() => {
-    if (isIntersecting && hasNextPage && !isFetchingNextPage) {
-      fetchNextPage();
-    }
-  }, [isIntersecting, hasNextPage, isFetchingNextPage, fetchNextPage]);
+    const handleScroll = () => {
+      if (!loadMoreRef.current || !hasNextPage || isFetchingNextPage) return;
+
+      const element = loadMoreRef.current;
+      const rect = element.getBoundingClientRect();
+      const isVisible = rect.top <= window.innerHeight && rect.bottom >= 0;
+
+      if (isVisible) {
+        console.log('✅ Trigger visible! Loading more products...');
+        fetchNextPage();
+      }
+    };
+
+    // Add scroll listener
+    window.addEventListener('scroll', handleScroll);
+    // Check on mount
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
 
   // Handle search with useCallback to prevent unnecessary re-renders
   const handleSearch = useCallback((query) => {
@@ -211,26 +223,29 @@ const Home = () => {
             {/* Product Grid */}
             <ProductGrid products={filteredProducts} loading={false} />
 
-            {/* Load More Trigger */}
+            {/* Infinite Scroll Trigger & Loader */}
             {hasNextPage && (
-              <div ref={loadMoreRef} className="mt-8 flex justify-center">
+              <div ref={loadMoreRef} className="mt-8 mb-8">
                 {isFetchingNextPage ? (
-                  <Loader size="medium" />
+                  <div className="flex flex-col items-center justify-center py-12">
+                    <Loader size="medium" />
+                    <p className="mt-4 text-gray-600 text-sm">Loading more products...</p>
+                  </div>
                 ) : (
-                  <button
-                    onClick={() => fetchNextPage()}
-                    className="btn-primary px-8"
-                  >
-                    Load More Products
-                  </button>
+                  <div className="h-4"></div>
                 )}
               </div>
             )}
 
             {/* End of List */}
             {!hasNextPage && allProducts.length > 0 && (
-              <div className="mt-8 text-center text-gray-600">
-                <p>You've reached the end of the list!</p>
+              <div className="mt-8 py-8 text-center">
+                <div className="inline-flex items-center justify-center px-6 py-3 bg-gray-100 rounded-full">
+                  <svg className="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span className="text-gray-600 font-medium">You've reached the end!</span>
+                </div>
               </div>
             )}
           </div>
