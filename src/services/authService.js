@@ -9,14 +9,14 @@ import { API_ENDPOINTS, STORAGE_KEYS } from '../utils/constants';
 export const login = async (credentials) => {
   try {
     const response = await api.post(API_ENDPOINTS.LOGIN, {
-      username: credentials.email,
+      username: credentials.username,
       password: credentials.password,
     });
     
     const token = response.data.token;
     const user = {
-      email: credentials.email,
-      name: credentials.email.split('@')[0],
+      username: credentials.username,
+      name: credentials.username,
       id: Date.now(),
     };
     

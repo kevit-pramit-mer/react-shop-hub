@@ -6,7 +6,7 @@ import Button from '../../components/common/Button';
 
 const Login = () => {
   const [formData, setFormData] = useState({
-    email: '',
+    username: '',
     password: '',
   });
   const [errors, setErrors] = useState({});
@@ -30,7 +30,7 @@ const Login = () => {
     
     // Basic validation
     const newErrors = {};
-    if (!formData.email) newErrors.email = 'Email is required';
+    if (!formData.username) newErrors.username = 'Username is required';
     if (!formData.password) newErrors.password = 'Password is required';
     
     if (Object.keys(newErrors).length > 0) {
@@ -48,7 +48,7 @@ const Login = () => {
 
   return (
     <div className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4">
-      <div className="max-w-md w-full bg-white rounded-lg shadow-md p-8">
+      <div className="max-w-md w-full bg-white rounded-lg shadow-xl border border-gray-100 p-8">
         <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Login</h2>
         
         {error && (
@@ -59,13 +59,13 @@ const Login = () => {
 
         <form onSubmit={handleSubmit}>
           <Input
-            label="Email"
-            type="email"
-            name="email"
-            value={formData.email}
+            label="Username"
+            type="text"
+            name="username"
+            value={formData.username}
             onChange={handleChange}
-            error={errors.email}
-            placeholder="Enter your email"
+            error={errors.username}
+            placeholder="Enter your username"
           />
 
           <Input
@@ -97,7 +97,7 @@ const Login = () => {
         
         <div className="mt-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-sm text-blue-700">
           <strong>Demo Credentials:</strong><br />
-          Email: mor_2314<br />
+          Username: mor_2314<br />
           Password: 83r5^_
         </div>
       </div>

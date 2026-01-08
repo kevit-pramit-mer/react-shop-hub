@@ -19,6 +19,10 @@ const TermsAndConditions = lazy(() => import('../pages/TermsAndConditions'));
 const ReturnPolicy = lazy(() => import('../pages/ReturnPolicy'));
 const ShippingPolicy = lazy(() => import('../pages/ShippingPolicy'));
 const CategoryProducts = lazy(() => import('../pages/CategoryProducts'));
+const Profile = lazy(() => import('../pages/Profile'));
+const Orders = lazy(() => import('../pages/Orders'));
+const OrderDetails = lazy(() => import('../pages/OrderDetails'));
+const Settings = lazy(() => import('../pages/Settings'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const AppRoutes = () => {
@@ -39,6 +43,38 @@ const AppRoutes = () => {
         <Route path="/products/:categorySlug" element={<CategoryProducts />} />
 
         {/* Protected Routes */}
+        <Route
+          path="/profile"
+          element={
+            <ProtectedRoute>
+              <Profile />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders"
+          element={
+            <ProtectedRoute>
+              <Orders />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/orders/:orderId"
+          element={
+            <ProtectedRoute>
+              <OrderDetails />
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/settings"
+          element={
+            <ProtectedRoute>
+              <Settings />
+            </ProtectedRoute>
+          }
+        />
         <Route
           path="/cart"
           element={
