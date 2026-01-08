@@ -21,6 +21,8 @@ A modern, full-featured e-commerce application built with **React 19.2.0**, **Vi
 - 📡 **API Integration** - TanStack Query with caching
 - 🔔 **Toast Notifications** - User feedback for actions
 - 📄 **Policy Pages** - Privacy, Terms, Return & Shipping policies with professional UI
+- 🎯 **MegaMenu** - Professional full-width megamenu with category navigation
+- 📂 **Category Pages** - Dedicated pages for each category with clean URLs and breadcrumbs
 
 ---
 

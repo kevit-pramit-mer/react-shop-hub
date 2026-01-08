@@ -4,11 +4,12 @@ import { filterProducts, sortProducts } from '../utils/helpers';
 /**
  * Custom hook for product filtering and sorting
  * @param {Array} products - Products array
+ * @param {Array} initialCategories - Initial selected categories
  * @returns {Object} Filter state and methods
  */
-export const useProductFilters = (products = []) => {
+export const useProductFilters = (products = [], initialCategories = []) => {
   const [filters, setFilters] = useState({
-    categories: [],
+    categories: initialCategories,
     priceRange: null,
     rating: null,
     searchQuery: '',

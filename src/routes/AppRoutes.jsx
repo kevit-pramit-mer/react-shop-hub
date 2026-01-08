@@ -18,6 +18,7 @@ const PrivacyPolicy = lazy(() => import('../pages/PrivacyPolicy'));
 const TermsAndConditions = lazy(() => import('../pages/TermsAndConditions'));
 const ReturnPolicy = lazy(() => import('../pages/ReturnPolicy'));
 const ShippingPolicy = lazy(() => import('../pages/ShippingPolicy'));
+const CategoryProducts = lazy(() => import('../pages/CategoryProducts'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 const AppRoutes = () => {
@@ -35,6 +36,7 @@ const AppRoutes = () => {
         <Route path="/terms-and-conditions" element={<TermsAndConditions />} />
         <Route path="/return-policy" element={<ReturnPolicy />} />
         <Route path="/shipping-policy" element={<ShippingPolicy />} />
+        <Route path="/products/:categorySlug" element={<CategoryProducts />} />
 
         {/* Protected Routes */}
         <Route

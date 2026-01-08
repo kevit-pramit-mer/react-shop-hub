@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import { selectCartItemCount } from '../../redux/slices/cartSlice';
@@ -6,8 +6,10 @@ import { selectWishlistCount } from '../../redux/slices/wishlistSlice';
 import { selectIsAuthenticated, selectUser } from '../../redux/slices/authSlice';
 import { useAuth } from '../../hooks/useAuth';
 import { APP_NAME } from '../../utils/constants';
+import MegaMenu from './MegaMenu';
 
 const Navbar = () => {
+  const [isMegaMenuOpen, setIsMegaMenuOpen] = useState(false);
   const cartCount = useSelector(selectCartItemCount);
   const wishlistCount = useSelector(selectWishlistCount);
   const isAuthenticated = useSelector(selectIsAuthenticated);
@@ -28,6 +30,22 @@ const Navbar = () => {
             <Link to="/" className="text-gray-700 hover:text-primary transition">
               Home
             </Link>
+            <div
+              className="relative"
+              onMouseEnter={() => setIsMegaMenuOpen(true)}
+            >
+              <button className="text-gray-700 hover:text-primary transition flex items-center">
+                Products
+                <svg 
+                  className={`w-4 h-4 ml-1 transition-transform ${isMegaMenuOpen ? 'rotate-180' : ''}`} 
+                  fill="none" 
+                  stroke="currentColor" 
+                  viewBox="0 0 24 24"
+                >
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
+                </svg>
+              </button>
+            </div>
             <Link to="/about" className="text-gray-700 hover:text-primary transition">
               About
             </Link>
@@ -86,6 +104,12 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      
+      {/* MegaMenu */}
+      <MegaMenu 
+        isOpen={isMegaMenuOpen} 
+        onClose={() => setIsMegaMenuOpen(false)} 
+      />
     </nav>
   );
 };
