@@ -134,50 +134,37 @@ const Home = () => {
         </div>
 
         {/* Search and Sort Bar */}
-        <div className="mb-8">
-          <div className="bg-white rounded-2xl shadow-lg border border-gray-100 p-4 md:p-6">
-            <div className="flex flex-col md:flex-row gap-4 items-stretch md:items-center">
-              {/* Search Section */}
-              <div className="flex-grow">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Search Products
-                </label>
-                <SearchBar onSearch={handleSearch} />
-              </div>
-              
-              {/* Divider - Hidden on mobile */}
-              <div className="hidden md:block w-px bg-gray-200 self-stretch my-2"></div>
-              
-              {/* Sort Section */}
-              <div className="md:w-64">
-                <label className="block text-sm font-semibold text-gray-700 mb-2">
-                  Sort By
-                </label>
-                <div className="relative">
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full pl-10 pr-10 py-3 border-2 border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-blue-500 bg-white text-gray-700 font-medium cursor-pointer appearance-none transition-all hover:border-gray-400"
-                  >
-                    {SORT_OPTIONS.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                  {/* Sort Icon */}
-                  <div className="absolute left-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
-                    </svg>
-                  </div>
-                  {/* Dropdown Arrow */}
-                  <div className="absolute right-3 top-1/2 -translate-y-1/2 pointer-events-none">
-                    <svg className="w-5 h-5 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                      <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 9l-7 7-7-7" />
-                    </svg>
-                  </div>
-                </div>
+        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
+          <div className="grid grid-cols-1 md:grid-cols-[75%_25%] gap-6">
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+                Search Products
+              </label>
+              <SearchBar onSearch={setSearchQuery} />
+            </div>
+            
+            <div>
+              <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                </svg>
+                Sort By
+              </label>
+              <div className="max-w-xs">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+                >
+                  {SORT_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>

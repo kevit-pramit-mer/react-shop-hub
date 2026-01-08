@@ -67,7 +67,8 @@ const CategoryProducts = () => {
   // Get all products from pages
   const allProducts = data?.pages.flatMap(page => page.products) || [];
 
-  // Use product filters hook - don't pre-select category since products are already filtered
+  // Use product filters hook - pass category name so checkbox is pre-selected
+  // Note: Products are already filtered by category in the query, so we won't double-filter
   const {
     filters,
     sortBy,
@@ -77,7 +78,7 @@ const CategoryProducts = () => {
     setRating,
     setSearchQuery,
     setSortBy,
-  } = useProductFilters(allProducts); // Products already filtered by category
+  } = useProductFilters(allProducts, [categoryName]); // Pre-select category checkbox
 
   // Ref for infinite scroll
   const loadMoreRef = useRef(null);
@@ -181,7 +182,7 @@ const CategoryProducts = () => {
 
         {/* Search and Sort Bar */}
         <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-[75%_25%] gap-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                 <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -199,18 +200,20 @@ const CategoryProducts = () => {
                 </svg>
                 Sort By
               </label>
-              <select
-                value={sortBy}
-                onChange={(e) => setSortBy(e.target.value)}
-                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
-              >
-                <option value="default">Default</option>
-                <option value="price-asc">Price: Low to High</option>
-                <option value="price-desc">Price: High to Low</option>
-                <option value="rating-desc">Rating: High to Low</option>
-                <option value="name-asc">Name: A-Z</option>
-                <option value="name-desc">Name: Z-A</option>
-              </select>
+              <div className="max-w-xs">
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+                >
+                  <option value="default">Default</option>
+                  <option value="price-asc">Price: Low to High</option>
+                  <option value="price-desc">Price: High to Low</option>
+                  <option value="rating-desc">Rating: High to Low</option>
+                  <option value="name-asc">Name: A-Z</option>
+                  <option value="name-desc">Name: Z-A</option>
+                </select>
+              </div>
             </div>
           </div>
         </div>
