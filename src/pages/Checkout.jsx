@@ -15,6 +15,7 @@ const Checkout = () => {
   const { items } = useSelector(state => state.cart);
   const [paymentMethod, setPaymentMethod] = useState('card');
   const [isProcessing, setIsProcessing] = useState(false);
+  const [orderPlaced, setOrderPlaced] = useState(false);
 
   const {
     register,
@@ -24,15 +25,16 @@ const Checkout = () => {
 
   const { subtotal, tax, shipping, total } = calculateCartTotal(items);
 
-  // Redirect if cart is empty
+  // Redirect if cart is empty (but not when order is being placed)
   React.useEffect(() => {
-    if (items.length === 0) {
+    if (items.length === 0 && !orderPlaced) {
       navigate('/cart');
     }
-  }, [items, navigate]);
+  }, [items, navigate, orderPlaced]);
 
   const onSubmit = async (data) => {
     setIsProcessing(true);
+    setOrderPlaced(true); // Prevent redirect when cart is cleared
     
     // Simulate API call
     await new Promise(resolve => setTimeout(resolve, 2000));
@@ -40,13 +42,39 @@ const Checkout = () => {
     // Generate order ID
     const orderId = 'ORD-' + Date.now();
     
+    // Create order object with all details
+    const orderData = {
+      orderId,
+      date: new Date().toLocaleDateString('en-US', { 
+        year: 'numeric', 
+        month: 'long', 
+        day: 'numeric' 
+      }),
+      items: items.map(item => ({
+        id: item.id,
+        name: item.title,
+        price: item.price,
+        quantity: item.quantity,
+        image: item.image,
+      })),
+      shippingInfo: data,
+      paymentMethod,
+      subtotal,
+      tax,
+      shipping,
+      total,
+    };
+    
+    // Save order to localStorage (in real app, send to API)
+    localStorage.setItem('lastOrder', JSON.stringify(orderData));
+    
     // Clear cart
     dispatch(clearCart());
     
     toast.success('Order placed successfully!');
     
-    // Redirect to success page
-    navigate(`/order-success?orderId=${orderId}`);
+    // Redirect to success page with orderId as path param
+    navigate(`/order-success/${orderId}`, { replace: true });
     
     setIsProcessing(false);
   };
@@ -56,18 +84,25 @@ const Checkout = () => {
   }
 
   return (
-    <div className="bg-gray-50 min-h-screen py-8">
+    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
       <div className="container mx-auto px-4">
-        <h1 className="text-3xl font-bold mb-8">Checkout</h1>
+        {/* Header */}
+        <div className="text-center mb-8">
+          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">
+            Checkout
+          </h1>
+          <p className="text-gray-600 text-lg">Complete your purchase securely and quickly</p>
+        </div>
 
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+        <div className="max-w-7xl mx-auto">
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Checkout Form */}
           <div className="lg:col-span-2">
             <form onSubmit={handleSubmit(onSubmit)} className="space-y-6">
               {/* Shipping Information */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-xl font-bold mb-6 flex items-center">
-                  <svg className="w-6 h-6 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+                <h2 className="text-xl font-bold mb-6 flex items-center text-gray-900">
+                  <svg className="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
                   </svg>
@@ -157,9 +192,9 @@ const Checkout = () => {
               </div>
 
               {/* Payment Method */}
-              <div className="bg-white rounded-lg shadow-md p-6">
-                <h2 className="text-xl font-bold mb-6 flex items-center">
-                  <svg className="w-6 h-6 mr-2 text-primary" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6">
+                <h2 className="text-xl font-bold mb-6 flex items-center text-gray-900">
+                  <svg className="w-6 h-6 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 10h18M7 15h1m4 0h1m-7 4h12a3 3 0 003-3V8a3 3 0 00-3-3H6a3 3 0 00-3 3v8a3 3 0 003 3z" />
                   </svg>
                   Payment Method
@@ -226,10 +261,9 @@ const Checkout = () => {
               </div>
 
               {/* Place Order Button */}
-              <Button
+              <button
                 type="submit"
-                size="large"
-                className="w-full"
+                className="w-full bg-gradient-to-r from-blue-600 to-purple-600 text-white px-6 py-4 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                 disabled={isProcessing}
               >
                 {isProcessing ? (
@@ -248,14 +282,14 @@ const Checkout = () => {
                     Place Order - {formatPrice(total)}
                   </>
                 )}
-              </Button>
+              </button>
             </form>
           </div>
 
           {/* Order Summary */}
           <div className="lg:col-span-1">
-            <div className="bg-white rounded-lg shadow-md p-6 sticky top-4">
-              <h2 className="text-xl font-bold mb-6">Order Summary</h2>
+            <div className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 sticky top-4">
+              <h2 className="text-2xl font-bold mb-6 text-gray-900">Order Summary</h2>
 
               {/* Products */}
               <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
@@ -279,21 +313,32 @@ const Checkout = () => {
 
               {/* Pricing */}
               <div className="border-t pt-4 space-y-3">
-                <div className="flex justify-between text-gray-700">
-                  <span>Subtotal ({items.length} items)</span>
-                  <span>{formatPrice(subtotal)}</span>
+                <div className="flex justify-between text-gray-600">
+                  <span className="text-sm">Subtotal ({items.length} {items.length === 1 ? 'item' : 'items'})</span>
+                  <span className="font-semibold text-gray-900">{formatPrice(subtotal)}</span>
                 </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>Tax (18%)</span>
-                  <span>{formatPrice(tax)}</span>
+                <div className="flex justify-between text-gray-600">
+                  <span className="text-sm">Tax (18%)</span>
+                  <span className="font-semibold text-gray-900">{formatPrice(tax)}</span>
                 </div>
-                <div className="flex justify-between text-gray-700">
-                  <span>Shipping</span>
-                  <span>{shipping === 0 ? 'FREE' : formatPrice(shipping)}</span>
+                <div className="flex justify-between text-gray-600">
+                  <span className="text-sm">Shipping</span>
+                  <span className="text-green-600 font-bold flex items-center">
+                    {shipping === 0 ? (
+                      <>
+                        <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                          <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
+                        </svg>
+                        FREE
+                      </>
+                    ) : (
+                      formatPrice(shipping)
+                    )}
+                  </span>
                 </div>
-                <div className="border-t pt-3 flex justify-between text-lg font-bold">
-                  <span>Total</span>
-                  <span className="text-primary">{formatPrice(total)}</span>
+                <div className="border-t-2 border-gray-200 pt-3 flex justify-between items-center">
+                  <span className="text-lg font-bold text-gray-900">Total</span>
+                  <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{formatPrice(total)}</span>
                 </div>
               </div>
 
@@ -319,6 +364,7 @@ const Checkout = () => {
                 </div>
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
