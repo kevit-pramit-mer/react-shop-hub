@@ -36,16 +36,43 @@ const Footer = () => {
                   Contact
                 </Link>
               </li>
+              <li>
+                <Link to="/privacy-policy" className="text-gray-400 hover:text-white transition">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms-and-conditions" className="text-gray-400 hover:text-white transition">
+                  Terms & Conditions
+                </Link>
+              </li>
             </ul>
           </div>
 
-          {/* Customer Service */}
+          {/* Legal */}
           <div>
-            <h4 className="text-lg font-semibold mb-4">Customer Service</h4>
+            <h4 className="text-lg font-semibold mb-4">Legal</h4>
             <ul className="space-y-2">
-              <li className="text-gray-400">Help Center</li>
-              <li className="text-gray-400">Returns</li>
-              <li className="text-gray-400">Shipping Info</li>
+              <li>
+                <Link to="/privacy-policy" className="text-gray-400 hover:text-white transition">
+                  Privacy Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/terms-and-conditions" className="text-gray-400 hover:text-white transition">
+                  Terms & Conditions
+                </Link>
+              </li>
+              <li>
+                <Link to="/return-policy" className="text-gray-400 hover:text-white transition">
+                  Return Policy
+                </Link>
+              </li>
+              <li>
+                <Link to="/shipping-policy" className="text-gray-400 hover:text-white transition">
+                  Shipping Policy
+                </Link>
+              </li>
             </ul>
           </div>
 

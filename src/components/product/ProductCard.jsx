@@ -6,6 +6,18 @@ import { toggleWishlist, selectIsInWishlist } from '../../redux/slices/wishlistS
 import { formatPrice, getRatingStars, truncateText } from '../../utils/helpers';
 import toast from 'react-hot-toast';
 
+// Helper function to get category-specific gradient colors
+const getCategoryGradient = (category) => {
+  const gradients = {
+    'electronics': 'from-blue-600 to-cyan-600',
+    'jewelery': 'from-purple-600 to-pink-600',
+    "men's clothing": 'from-indigo-600 to-blue-600',
+    "women's clothing": 'from-pink-600 to-rose-600',
+  };
+  
+  return gradients[category?.toLowerCase()] || 'from-purple-600 to-blue-600';
+};
+
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
   const isInWishlist = useSelector(selectIsInWishlist(product.id));
@@ -59,7 +71,7 @@ const ProductCard = ({ product }) => {
 
           {/* Category Badge */}
           <div className="absolute top-3 left-3">
-            <span className="inline-flex items-center px-3 py-1.5 bg-gradient-to-r from-purple-600 to-blue-600 text-white text-xs font-semibold rounded-full capitalize shadow-lg backdrop-blur-sm">
+            <span className={`inline-flex items-center px-3 py-1.5 bg-gradient-to-r ${getCategoryGradient(product.category)} text-white text-xs font-semibold rounded-full capitalize shadow-lg backdrop-blur-sm`}>
               <svg className="w-3 h-3 mr-1.5" fill="currentColor" viewBox="0 0 20 20">
                 <path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z" />
               </svg>

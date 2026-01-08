@@ -20,6 +20,7 @@ A modern, full-featured e-commerce application built with **React 19.2.0**, **Vi
 - 🔄 **State Management** - Redux Toolkit with localStorage persistence
 - 📡 **API Integration** - TanStack Query with caching
 - 🔔 **Toast Notifications** - User feedback for actions
+- 📄 **Policy Pages** - Privacy, Terms, Return & Shipping policies with professional UI
 
 ---
 
@@ -120,11 +121,16 @@ Or register a new account to test the full flow!
 4. Try accessing `/checkout` → redirects to login
 5. Login and get redirected back to the page you were trying to access
 
-### 8. Static Pages ✅
-1. Visit `/about` - About Us page
+### 8. Policy & Legal Pages ✅
+1. Visit `/about` - About Us page with mission and values
 2. Visit `/contact` - Contact form with validation
-3. Fill contact form and submit
-4. Receive success toast notification
+3. Visit `/privacy-policy` - Privacy Policy with data collection and usage details
+4. Visit `/terms-and-conditions` - Terms & Conditions with comprehensive policies
+5. Visit `/return-policy` - Return Policy with eligibility and refund process
+6. Visit `/shipping-policy` - Shipping Policy with delivery timelines and tracking
+7. Fill contact form and submit
+8. Receive success toast notification
+9. All pages accessible via navbar (Privacy, Terms) and footer (all policies)
 
 ### 9. Error Handling ✅
 1. Visit non-existent route (e.g., `/invalid-page`)
@@ -192,6 +198,10 @@ react-shop-hub/
 │   │   ├── OrderSuccess.jsx # ✅ Order confirmation
 │   │   ├── About.jsx        # ✅ About page
 │   │   ├── Contact.jsx      # ✅ Contact form
+│   │   ├── PrivacyPolicy.jsx # ✅ Privacy Policy page
+│   │   ├── TermsAndConditions.jsx # ✅ Terms & Conditions page
+│   │   ├── ReturnPolicy.jsx # ✅ Return Policy page
+│   │   ├── ShippingPolicy.jsx # ✅ Shipping Policy page
 │   │   └── NotFound.jsx     # ✅ 404 page
 │   ├── redux/
 │   │   ├── slices/          # ✅ auth, cart, wishlist, ui
