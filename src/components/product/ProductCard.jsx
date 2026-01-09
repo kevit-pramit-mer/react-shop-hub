@@ -4,7 +4,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { toggleWishlist, selectIsInWishlist } from '../../redux/slices/wishlistSlice';
 import { formatPrice, getRatingStars, truncateText } from '../../utils/helpers';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '../../contexts/ModalContext';
 import QuickViewModal from './QuickViewModal';
 import toast from 'react-hot-toast';
 

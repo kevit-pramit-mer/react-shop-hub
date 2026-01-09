@@ -8,7 +8,7 @@ import { addToCart } from '../../redux/slices/cartSlice';
 import { toggleWishlist, selectIsInWishlist } from '../../redux/slices/wishlistSlice';
 import { formatPrice, getRatingStars } from '../../utils/helpers';
 import { QUERY_KEYS } from '../../utils/constants';
-import { useModal } from '../../context/ModalContext';
+import { useModal } from '../../contexts/ModalContext';
 import Skeleton from '../common/Skeleton';
 import toast from 'react-hot-toast';
 

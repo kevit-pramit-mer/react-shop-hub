@@ -12,7 +12,7 @@ A modern, full-featured e-commerce application built with **React 19.2.0**, **Vi
 - 🛒 **Shopping Cart** - Add, remove, update quantities with persistent storage
 - ❤️ **Wishlist** - Save favorite products with redesigned UI matching home page
 - 🏪 **Product Catalog** - Browse products with infinite scroll
-- 🔍 **Advanced Filtering** - Category, price range, rating filters with 75-25 split layout
+- 🔍 **Advanced Filtering** - Category, price range
 - 🔎 **Real-time Search** - Debounced search functionality
 - 📦 **Order Management** - View order history, order details with tracking
 - 📋 **Order Details** - Comprehensive order information with items, shipping, delivery info
@@ -128,12 +128,11 @@ Or register a new account to test the full flow!
 1. View products on home page (9 products initially)
 2. Scroll down to trigger infinite scroll (loads 9 more)
 3. Use sidebar category filters (electronics, jewelry, clothing)
-4. Notice 75-25 split layout (search/sort bars)
-5. Adjust price range filter
+4. Adjust price range filter
 6. Filter by minimum rating (4★, 3★, 2★, 1★)
-7. Search for products using search bar
-8. Sort products (price, rating, name A-Z/Z-A)
-9. Click product card to view details
+6. Search for products using search bar
+7. Sort products (price, rating, name A-Z/Z-A)
+8. Click product card to view details
 
 ### 6. Product Details ✅
 1. Click any product to open details page
@@ -154,7 +153,7 @@ Or register a new account to test the full flow!
 9. Cart persists after page reload (localStorage)
 10. Click "Proceed to Checkout"
 
-### 5. Wishlist (Redesigned) ✅
+### 5. Wishlist ✅
 1. Click heart icons on products to add to wishlist
 2. View wishlist count badge in navbar
 3. Access via navbar link or user dropdown → Wishlist
@@ -319,50 +318,59 @@ Or register a new account to test the full flow!
 
 ```
 react-shop-hub/
+├── public/
+│   └── favicon.svg                 # ✅ Custom ShopHub gradient favicon
 ├── src/
 │   ├── components/
-│   │   ├── common/          # ✅ Navbar (with user dropdown), Footer, Loader, Button, Input, ErrorBoundary, AnimatedPage, SEO, CookieConsent, SkipToContent
-│   │   ├── accessibility/   # ✅ AccessibilityWidget, SkipToContent (NEW)
-│   │   ├── product/         # ✅ ProductCard, Filter, Grid, Skeleton, SearchBar, QuickViewModal, ImageGallery
-│   │   ├── cart/            # ✅ CartItem, CartSummary
-│   │   └── context/         # ✅ ModalContext
+│   │   ├── common/                 # ✅ Navbar, Footer, Loader, Button, Input, ErrorBoundary, AnimatedPage, SEO, CookieConsent
+│   │   ├── accessibility/          # ✅ AccessibilityWidget, SkipToContent (NEW)
+│   │   ├── product/                # ✅ ProductCard, Filter, Grid, Skeleton, SearchBar, QuickViewModal, ImageGallery
+│   │   └── cart/                   # ✅ CartItem, CartSummary
+│   ├── contexts/                   # ✅ AccessibilityContext, ModalContext
 │   ├── pages/
-│   │   ├── auth/            # ✅ Login, Register
-│   │   ├── Home.jsx         # ✅ Product listing with infinite scroll
-│   │   ├── ProductDetails.jsx  # ✅ Full product details
-│   │   ├── Profile.jsx      # ✅ User profile management (NEW)
-│   │   ├── Orders.jsx       # ✅ Order history list (NEW)
-│   │   ├── OrderDetails.jsx # ✅ Comprehensive order details (NEW)
-│   │   ├── Settings.jsx     # ✅ User settings & preferences (NEW)
-│   │   ├── Cart.jsx         # ✅ Shopping cart
-│   │   ├── Wishlist.jsx     # ✅ Saved products (REDESIGNED)
-│   │   ├── Checkout.jsx     # ✅ Checkout form
-│   │   ├── OrderSuccess.jsx # ✅ Order confirmation
-│   │   ├── About.jsx        # ✅ About page
-│   │   ├── Contact.jsx      # ✅ Contact form
-│   │   ├── PrivacyPolicy.jsx # ✅ Privacy Policy page
-│   │   ├── TermsAndConditions.jsx # ✅ Terms & Conditions page
-│   │   ├── ReturnPolicy.jsx # ✅ Return Policy page
-│   │   ├── ShippingPolicy.jsx # ✅ Shipping Policy page
-│   │   ├── CategoryProducts.jsx # ✅ Category-specific products
-│   │   └── NotFound.jsx     # ✅ 404 page
+│   │   ├── auth/                   # ✅ Login, Register
+│   │   ├── Home.jsx                # ✅ Product listing with infinite scroll
+│   │   ├── ProductDetails.jsx      # ✅ Full product details
+│   │   ├── Profile.jsx             # ✅ User profile management
+│   │   ├── Orders.jsx              # ✅ Order history list
+│   │   ├── OrderDetails.jsx        # ✅ Comprehensive order details
+│   │   ├── Settings.jsx            # ✅ User settings & preferences
+│   │   ├── Cart.jsx                # ✅ Shopping cart
+│   │   ├── Wishlist.jsx            # ✅ Saved products
+│   │   ├── Checkout.jsx            # ✅ Checkout form
+│   │   ├── OrderSuccess.jsx        # ✅ Order confirmation
+│   │   ├── About.jsx               # ✅ About page
+│   │   ├── Contact.jsx             # ✅ Contact form
+│   │   ├── PrivacyPolicy.jsx       # ✅ Privacy Policy page
+│   │   ├── TermsAndConditions.jsx  # ✅ Terms & Conditions page
+│   │   ├── ReturnPolicy.jsx        # ✅ Return Policy page
+│   │   ├── ShippingPolicy.jsx      # ✅ Shipping Policy page
+│   │   ├── CategoryProducts.jsx    # ✅ Category-specific products
+│   │   ├── ShippingPolicy.jsx      # ✅ Shipping Policy page
+│   │   ├── CategoryProducts.jsx    # ✅ Category-specific products
+│   │   └── NotFound.jsx            # ✅ 404 page
+│   ├── contexts/                   # ✅ AccessibilityContext, ModalContext
 │   ├── redux/
-│   │   ├── slices/          # ✅ auth, cart, wishlist, ui
-│   │   ├── middleware/      # ✅ localStorage sync
-│   │   contexts/            # ✅ AccessibilityContext (NEW)
-│   ├── services/            # ✅ API services (axios, auth, products, orders)
-│   ├── hooks/               # ✅ 7 custom hooks
-│   ├── utils/               # ✅ constants, helpers, validators
-│   ├── routes/              # ✅ AppRoutes, ProtectedRoute
-│   ├── styles/              # ✅ accessibility.css (NEW)ators
-│   ├── routes/              # ✅ AppRoutes, ProtectedRoute
-│   ├── App.jsx              # ✅ Main component
-│   ├── main.jsx             # ✅ Entry with providers
-│   └── queryClient.js       # ✅ TanStack Query config
-├── .env                     # ✅ Environment variables
-├── tailwind.config.js       # ✅ Tailwind config
-├── postcss.config.js        # ✅ PostCSS config
-└── package.json             # ✅ Dependencies
+│   │   ├── slices/                 # ✅ auth, cart, wishlist, ui
+│   │   ├── middleware/             # ✅ localStorage sync
+│   │   └── store.js                # ✅ Redux store
+│   ├── services/                   # ✅ API services (axios, auth, products, orders)
+│   ├── hooks/                      # ✅ 7 custom hooks
+│   ├── utils/                      # ✅ constants, helpers, validators
+│   ├── routes/                     # ✅ AppRoutes, ProtectedRoute
+│   ├── styles/                     # ✅ accessibility.css (NEW)
+│   ├── App.jsx                     # ✅ Main component
+│   ├── main.jsx                    # ✅ Entry with providers
+│   ├── index.css                   # ✅ Global styles
+│   └── queryClient.js              # ✅ TanStack Query config
+├── .env                            # ✅ Environment variables
+├── index.html                      # ✅ HTML entry point
+├── tailwind.config.js              # ✅ Tailwind config
+├── postcss.config.js               # ✅ PostCSS config
+├── vite.config.js                  # ✅ Vite configuration
+├── eslint.config.js                # ✅ ESLint configuration
+├── package.json                    # ✅ Dependencies
+└── README.md                       # ✅ Project documentation
 ```
 
 ---
@@ -587,7 +595,7 @@ VITE_ITEMS_PER_PAGE=9
 
 ## 🎨 Design System
 
-### Gradient System (NEW)
+### Gradient System
 - **Primary Gradient:** from-blue-600 to-purple-600 (used for headings, prices, buttons)
 - **Background Gradient:** from-blue-50 via-white to-purple-50 (page backgrounds)
 - **Card Gradients:** from-gray-50 to-gray-100 (product image backgrounds)
@@ -675,13 +683,11 @@ For issues or questions:
 4. Verify all dependencies are installed
 
 ---
-2
 **Status:** ✅ Production Ready  
-**Version:** 1.1.0  
-**Last Updated:** January 8, 2026  
+**Version:** 1.2.0  
+**Last Updated:** January 9, 2026  
 **React Version:** 19.2.0  
 **Vite Version:** 7.2.4
-2.0)
 
 ### Latest Features Added (January 8, 2026)
 - ✨ **Framer Motion Integration** - Smooth page transitions across all pages
@@ -702,7 +708,6 @@ For issues or questions:
 - ✅ **Order Details Page** - Comprehensive order information with tracking
 - ✅ **Settings Page** - Notification preferences and privacy options
 - ✅ **Wishlist Redesign** - Completely redesigned to match Home page design
-- ✅ **Enhanced Filtering** - 75-25 split layout for search and sort bars
 - ✅ **Gradient Design System** - Consistent blue-purple gradients throughout
 
 ### UI/UX Improvements

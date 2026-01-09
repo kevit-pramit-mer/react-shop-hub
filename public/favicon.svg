@@ -1,0 +1,37 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" fill="none">
+  <defs>
+    <linearGradient id="bgGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#3B82F6;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#9333EA;stop-opacity:1" />
+    </linearGradient>
+    <linearGradient id="cartGradient" x1="0%" y1="0%" x2="100%" y2="100%">
+      <stop offset="0%" style="stop-color:#FFFFFF;stop-opacity:1" />
+      <stop offset="100%" style="stop-color:#E0E7FF;stop-opacity:1" />
+    </linearGradient>
+  </defs>
+  
+  <!-- Background Circle -->
+  <circle cx="32" cy="32" r="32" fill="url(#bgGradient)"/>
+  
+  <!-- Shopping Cart Icon -->
+  <g transform="translate(12, 14)">
+    <!-- Cart Body -->
+    <path d="M2 4h6l2 12h18l3-8H10" 
+          stroke="url(#cartGradient)" 
+          stroke-width="3" 
+          stroke-linecap="round" 
+          stroke-linejoin="round" 
+          fill="none"/>
+    
+    <!-- Cart Wheels -->
+    <circle cx="12" cy="22" r="2" fill="#FFFFFF"/>
+    <circle cx="28" cy="22" r="2" fill="#FFFFFF"/>
+    
+    <!-- S Letter (ShopHub) -->
+    <path d="M35 6 Q38 4 40 6 Q42 8 40 10 L38 11 Q36 12 34 10 Q32 8 34 6 Q36 4 38 6" 
+          stroke="#FFFFFF" 
+          stroke-width="2" 
+          fill="none" 
+          stroke-linecap="round"/>
+  </g>
+</svg>

@@ -4,7 +4,7 @@ import Footer from './components/common/Footer';
 import ScrollToTop from './components/common/ScrollToTop';
 import CookieConsent from './components/common/CookieConsent';
 import AppRoutes from './routes/AppRoutes';
-import { ModalProvider } from './context/ModalContext';
+import { ModalProvider } from './contexts/ModalContext';
 import SkipToContent from './components/accessibility/SkipToContent';
 import AccessibilityWidget from './components/accessibility/AccessibilityWidget';
 
