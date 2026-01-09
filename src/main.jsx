@@ -4,7 +4,6 @@ import { BrowserRouter } from 'react-router-dom';
 import { Provider } from 'react-redux';
 import { QueryClientProvider } from '@tanstack/react-query';
 import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
-import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 import './index.css';
 import './styles/accessibility.css';
@@ -19,16 +18,14 @@ createRoot(document.getElementById('root')).render(
     <ErrorBoundary>
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
-          <HelmetProvider>
-            <AccessibilityProvider>
-              <BrowserRouter>
+          <AccessibilityProvider>
+            <BrowserRouter>
                 <App />
                 <Toaster position="top-right" />
                 {/* Disable the React Query Devtools in production */}
                 {/* <ReactQueryDevtools initialIsOpen={false} /> */}
               </BrowserRouter>
             </AccessibilityProvider>
-          </HelmetProvider>
         </QueryClientProvider>
       </Provider>
     </ErrorBoundary>
