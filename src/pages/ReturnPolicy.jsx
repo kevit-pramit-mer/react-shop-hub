@@ -1,8 +1,16 @@
 import React from 'react';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 
 const ReturnPolicy = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
+    <AnimatedPage>
+      <SEO 
+        title="Return Policy"
+        description="ShopHub's hassle-free return policy. Learn about our 30-day return window, eligibility criteria, and refund process."
+        keywords="return policy, refund, exchange, 30 day return, hassle-free returns"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -248,8 +256,8 @@ const ReturnPolicy = () => {
                 Our customer service team is here to assist you with any return-related questions:
               </p>
               <ul className="space-y-2 text-lg">
-                <li>📧 Email: returns@shophub.com</li>
-                <li>📞 Phone: +1 234 567 8900</li>
+                <li className="flex items-center">📧 Email: <a href="mailto:returns@shophub.com" className="ml-2 hover:underline">returns@shophub.com</a></li>
+                <li className="flex items-center">📞 Phone: <a href="tel:+12345678900" className="ml-2 hover:underline">+1 234 567 8900</a></li>
                 <li>💬 Live Chat: Available 9 AM - 6 PM (Mon-Sat)</li>
                 <li>📍 Address: 123 Shop Street, City, State 12345</li>
               </ul>
@@ -257,7 +265,8 @@ const ReturnPolicy = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AnimatedPage>
   );
 };
 

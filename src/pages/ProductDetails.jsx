@@ -10,6 +10,9 @@ import { QUERY_KEYS } from '../utils/constants';
 import Loader from '../components/common/Loader';
 import Button from '../components/common/Button';
 import ProductCard from '../components/product/ProductCard';
+import ImageGallery from '../components/product/ImageGallery';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 import toast from 'react-hot-toast';
 
 const ProductDetails = () => {
@@ -55,6 +58,17 @@ const ProductDetails = () => {
     navigate('/cart');
   };
 
+  // Convert category name to slug for URL
+  const getCategorySlug = (category) => {
+    const slugMap = {
+      'electronics': 'electronics',
+      'jewelery': 'jewelery',
+      "men's clothing": 'mens-clothing',
+      "women's clothing": 'womens-clothing'
+    };
+    return slugMap[category] || category.toLowerCase().replace(/[^a-z0-9]+/g, '-');
+  };
+
   if (isLoading) {
     return <Loader fullScreen />;
   }
@@ -73,34 +87,50 @@ const ProductDetails = () => {
   const stars = getRatingStars(product.rating?.rate || 0);
 
   return (
-    <div className="bg-gray-50 min-h-screen">
-      <div className="container mx-auto px-4 py-8">
-        {/* Breadcrumb */}
-        <nav className="mb-6 text-sm">
-          <button onClick={() => navigate('/')} className="text-primary hover:underline">
-            Home
-          </button>
-          <span className="mx-2 text-gray-400">/</span>
-          <button onClick={() => navigate('/')} className="text-primary hover:underline">
-            {capitalize(product.category)}
-          </button>
-          <span className="mx-2 text-gray-400">/</span>
-          <span className="text-gray-600">{product.title}</span>
-        </nav>
+    <AnimatedPage>
+      <SEO 
+        title={product.title}
+        description={product.description}
+        keywords={`${product.category}, ${product.title}, buy online, ${product.rating?.rate} stars`}
+        image={product.image}
+        type="product"
+      />
+      <div className="bg-gray-50 min-h-screen">
+        <div className="container mx-auto px-4 py-8">
+          
+          {/* Page Header */}
+          <div className="text-center mb-8 md:mb-12">
+            {/* Breadcrumbs */}
+            <nav className="flex space-x-2 text-sm">
+              <button 
+                onClick={() => navigate('/')} 
+                className="text-gray-600 hover:text-blue-600 transition"
+              >
+                Home
+              </button>
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+              <button 
+                onClick={() => navigate(`/products/${getCategorySlug(product.category)}`)} 
+                className="text-gray-600 hover:text-blue-600 transition"
+              >
+                {capitalize(product.category)}
+              </button>
+              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
+              </svg>
+              <span className="text-blue-600 font-semibold">
+                {product.title.length > 50 ? product.title.substring(0, 50) + '...' : product.title}
+              </span>
+            </nav>
+          </div>
 
         {/* Product Details */}
-        <div className="bg-white rounded-lg shadow-md p-6 md:p-8 mb-8">
+        <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100 mb-8">
           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
             {/* Image Gallery */}
-            <div className="space-y-4">
-              <div className="aspect-square bg-gray-50 rounded-lg overflow-hidden flex items-center justify-center p-8">
-                <img
-                  src={product.image}
-                  alt={product.title}
-                  className="max-w-full max-h-full object-contain"
-                />
-              </div>
-            </div>
+            <ImageGallery images={product.image} productTitle={product.title} />
 
             {/* Product Info */}
             <div className="space-y-6">
@@ -110,7 +140,7 @@ const ProductDetails = () => {
               </span>
 
               {/* Title */}
-              <h1 className="text-3xl font-bold text-gray-900">{product.title}</h1>
+              <h1 className="text-3xl font-bold text-primary bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">{product.title}</h1>
 
               {/* Rating */}
               <div className="flex items-center gap-4">
@@ -222,8 +252,9 @@ const ProductDetails = () => {
             </div>
           </div>
         )}
+        </div>
       </div>
-    </div>
+    </AnimatedPage>
   );
 };
 

@@ -1,6 +1,8 @@
 import React, { useState } from 'react';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 import { validateEmail, validateRequired } from '../utils/validators';
 import toast from 'react-hot-toast';
 
@@ -56,16 +58,33 @@ const Contact = () => {
     }
 
     setLoading(true);
+    
+    // Log submitted data
+    console.log('📧 Contact Form Submitted:');
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    console.log('Name:', formData.name);
+    console.log('Email:', formData.email);
+    console.log('Subject:', formData.subject);
+    console.log('Message:', formData.message);
+    console.log('Timestamp:', new Date().toLocaleString());
+    console.log('━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━━');
+    
     // Simulate API call
     setTimeout(() => {
       setLoading(false);
-      toast.success('Message sent successfully!');
+      toast.success('Message sent successfully! We\'ll get back to you soon.');
       setFormData({ name: '', email: '', subject: '', message: '' });
     }, 1000);
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
+    <AnimatedPage>
+      <SEO 
+        title="Contact Us"
+        description="Get in touch with ShopHub. Send us a message and we'll respond as soon as possible. Contact support, ask questions, or share feedback."
+        keywords="contact, support, customer service, get in touch, email, phone, address"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -160,8 +179,8 @@ const Contact = () => {
                       <span className="text-2xl">📧</span>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-800">Email</p>
-                      <a href="mailto:support@shophub.com" className="text-blue-600 hover:text-blue-700">support@shophub.com</a>
+                      <p className="font-semibold text-gray-800 mb-1">Email</p>
+                      <a href="mailto:support@shophub.com" className="text-gray-700 hover:text-blue-600 transition-colors">support@shophub.com</a>
                     </div>
                   </div>
                   <div className="flex items-start group hover:translate-x-2 transition-transform">
@@ -169,8 +188,8 @@ const Contact = () => {
                       <span className="text-2xl">📞</span>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-800">Phone</p>
-                      <a href="tel:+12345678900" className="text-blue-600 hover:text-blue-700">+1 234 567 8900</a>
+                      <p className="font-semibold text-gray-800 mb-1">Phone</p>
+                      <a href="tel:+12345678900" className="text-gray-700 hover:text-blue-600 transition-colors">+1 234 567 8900</a>
                     </div>
                   </div>
                   <div className="flex items-start group hover:translate-x-2 transition-transform">
@@ -178,7 +197,7 @@ const Contact = () => {
                       <span className="text-2xl">📍</span>
                     </div>
                     <div>
-                      <p className="font-semibold text-gray-800">Address</p>
+                      <p className="font-semibold text-gray-800 mb-1">Address</p>
                       <p className="text-gray-600">123 Shop Street, City, State 12345</p>
                     </div>
                   </div>
@@ -211,7 +230,8 @@ const Contact = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AnimatedPage>
   );
 };
 

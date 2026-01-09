@@ -1,8 +1,16 @@
 import React from 'react';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 
 const TermsAndConditions = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
+    <AnimatedPage>
+      <SEO 
+        title="Terms & Conditions"
+        description="Read ShopHub's Terms and Conditions. Understand our policies, user agreements, and guidelines for using our e-commerce platform."
+        keywords="terms, conditions, legal, user agreement, policies"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -233,15 +241,16 @@ const TermsAndConditions = () => {
                 If you have any questions about these Terms and Conditions, please don't hesitate to contact us:
               </p>
               <ul className="space-y-2 text-lg">
-                <li>📧 Email: legal@shophub.com</li>
-                <li>📞 Phone: +1 234 567 8900</li>
+                <li className="flex items-center">📧 Email: <a href="mailto:legal@shophub.com" className="ml-2 hover:underline">legal@shophub.com</a></li>
+                <li className="flex items-center">📞 Phone: <a href="tel:+12345678900" className="ml-2 hover:underline">+1 234 567 8900</a></li>
                 <li>📍 Address: 123 Shop Street, City, State 12345</li>
               </ul>
             </section>
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AnimatedPage>
   );
 };
 

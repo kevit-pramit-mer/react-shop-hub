@@ -1,8 +1,16 @@
 import React from 'react';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 
 const PrivacyPolicy = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
+    <AnimatedPage>
+      <SEO 
+        title="Privacy Policy"
+        description="ShopHub's Privacy Policy. Learn how we collect, use, protect, and manage your personal information and data."
+        keywords="privacy policy, data protection, personal information, privacy, security"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -154,15 +162,16 @@ const PrivacyPolicy = () => {
                 If you have any questions about this Privacy Policy or our data practices, please contact us:
               </p>
               <ul className="space-y-2 text-lg">
-                <li>📧 Email: privacy@shophub.com</li>
-                <li>📞 Phone: +1 234 567 8900</li>
+                <li className="flex items-center">📧 Email: <a href="mailto:privacy@shophub.com" className="ml-2 hover:underline">privacy@shophub.com</a></li>
+                <li className="flex items-center">📞 Phone: <a href="tel:+12345678900" className="ml-2 hover:underline">+1 234 567 8900</a></li>
                 <li>📍 Address: 123 Shop Street, City, State 12345</li>
               </ul>
             </section>
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AnimatedPage>
   );
 };
 

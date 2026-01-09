@@ -7,6 +7,8 @@ import ProductFilter from '../components/product/ProductFilter';
 import SearchBar from '../components/product/SearchBar';
 import ProductSkeleton from '../components/product/ProductSkeleton';
 import Loader from '../components/common/Loader';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 import { QUERY_KEYS, ITEMS_PER_PAGE, SORT_OPTIONS } from '../utils/constants';
 
 const Home = () => {
@@ -121,71 +123,77 @@ const Home = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-      <div className="container mx-auto px-4 py-12">
-        {/* Header */}
-        <div className="text-center mb-8 md:mb-12">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">
-            Discover Amazing Products
-          </h1>
-          <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
-            Explore our curated collection of quality products. From electronics to fashion, find everything you need in one place with unbeatable prices and fast shipping.
-          </p>
-        </div>
+    <AnimatedPage>
+      <SEO 
+        title="ShopHub - Discover Amazing Products"
+        description="Explore our curated collection of quality products. From electronics to fashion, find everything you need in one place with unbeatable prices and fast shipping."
+        keywords="online shopping, electronics, fashion, jewelry, men's clothing, women's clothing, affordable prices, fast shipping"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+        <div className="container mx-auto px-4 py-12">
+          {/* Header */}
+          <div className="text-center mb-8 md:mb-12">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">
+              Discover Amazing Products
+            </h1>
+            <p className="text-gray-600 text-base md:text-lg max-w-2xl mx-auto">
+              Explore our curated collection of quality products. From electronics to fashion, find everything you need in one place with unbeatable prices and fast shipping.
+            </p>
+          </div>
 
-        {/* Search and Sort Bar */}
-        <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
-          <div className="grid grid-cols-1 md:grid-cols-[75%_25%] gap-6">
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                </svg>
-                Search Products
-              </label>
-              <SearchBar onSearch={setSearchQuery} />
-            </div>
-            
-            <div>
-              <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
-                <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
-                </svg>
-                Sort By
-              </label>
-              <div className="max-w-xs">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
-                >
-                  {SORT_OPTIONS.map((option) => (
-                    <option key={option.value} value={option.value}>
-                      {option.label}
-                    </option>
-                  ))}
-                </select>
+          {/* Search and Sort Bar */}
+          <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
+            <div className="grid grid-cols-1 md:grid-cols-[75%_25%] gap-6">
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                  </svg>
+                  Search Products
+                </label>
+                <SearchBar onSearch={setSearchQuery} />
+              </div>
+              
+              <div>
+                <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
+                  <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 4h13M3 8h9m-9 4h6m4 0l4-4m0 0l4 4m-4-4v12" />
+                  </svg>
+                  Sort By
+                </label>
+                <div className="max-w-xs">
+                  <select
+                    value={sortBy}
+                    onChange={(e) => setSortBy(e.target.value)}
+                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+                  >
+                    {SORT_OPTIONS.map((option) => (
+                      <option key={option.value} value={option.value}>
+                        {option.label}
+                      </option>
+                    ))}
+                  </select>
+                </div>
               </div>
             </div>
           </div>
-        </div>
 
-        {/* Main Content */}
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
-          {/* Sidebar Filters */}
-          <div className="lg:col-span-1">
-            <ProductFilter
-              filters={filters}
-              onToggleCategory={toggleCategory}
-              onPriceRangeChange={setPriceRange}
-              onRatingChange={setRating}
-              onClearFilters={clearFilters}
-              hasActiveFilters={hasActiveFilters}
-            />
-          </div>
+          {/* Main Content */}
+          <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+            {/* Sidebar Filters */}
+            <div className="lg:col-span-1">
+              <ProductFilter
+                filters={filters}
+                onToggleCategory={toggleCategory}
+                onPriceRangeChange={setPriceRange}
+                onRatingChange={setRating}
+                onClearFilters={clearFilters}
+                hasActiveFilters={hasActiveFilters}
+              />
+            </div>
 
-          {/* Product Grid */}
-          <div className="lg:col-span-3">
+            {/* Product Grid */}
+            <div className="lg:col-span-3">
             {/* Active Filters Display */}
             {hasActiveFilters && (
               <div className="mb-4 flex flex-wrap items-center gap-2">
@@ -265,10 +273,11 @@ const Home = () => {
                 </div>
               </div>
             )}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </AnimatedPage>
   );
 };
 

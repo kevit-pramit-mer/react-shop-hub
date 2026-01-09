@@ -4,6 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addToCart } from '../../redux/slices/cartSlice';
 import { toggleWishlist, selectIsInWishlist } from '../../redux/slices/wishlistSlice';
 import { formatPrice, getRatingStars, truncateText } from '../../utils/helpers';
+import { useModal } from '../../context/ModalContext';
+import QuickViewModal from './QuickViewModal';
 import toast from 'react-hot-toast';
 
 // Helper function to get category-specific gradient colors
@@ -20,18 +22,42 @@ const getCategoryGradient = (category) => {
 
 const ProductCard = ({ product }) => {
   const dispatch = useDispatch();
+  const { openModal } = useModal();
   const isInWishlist = useSelector(selectIsInWishlist(product.id));
 
   const handleAddToCart = (e) => {
     e.preventDefault();
     dispatch(addToCart(product));
-    toast.success('Added to cart!');
+    toast.success(
+      (t) => (
+        <div className="flex items-center gap-2">
+          <span>Added to cart!</span>
+          <button
+            onClick={() => {
+              toast.dismiss(t.id);
+              window.location.href = '/cart';
+            }}
+            className="text-blue-600 font-semibold hover:underline"
+          >
+            View Cart
+          </button>
+        </div>
+      ),
+      { duration: 4000 }
+    );
   };
 
   const handleToggleWishlist = (e) => {
     e.preventDefault();
     dispatch(toggleWishlist(product));
     toast.success(isInWishlist ? 'Removed from wishlist' : 'Added to wishlist!');
+  };
+
+  const handleQuickView = (e) => {
+    e.preventDefault();
+    openModal('quick-view', <QuickViewModal productId={product.id} />, {
+      size: 'xl',
+    });
   };
 
   const stars = getRatingStars(product.rating?.rate || 0);
@@ -122,16 +148,29 @@ const ProductCard = ({ product }) => {
             </span>
           </div>
 
-          {/* Add to Cart Button */}
-          <button
-            onClick={handleAddToCart}
-            className="w-full bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-sm font-semibold opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
-            </svg>
-            Add to Cart
-          </button>
+          {/* Action Buttons */}
+          <div className="flex gap-2 opacity-0 group-hover:opacity-100 transform group-hover:translate-y-0 translate-y-2 transition-all duration-300">
+            <button
+              onClick={handleAddToCart}
+              className="flex-1 bg-gradient-to-r from-blue-600 to-blue-700 text-white px-4 py-3 rounded-lg hover:from-blue-700 hover:to-blue-800 transition-all duration-300 text-sm font-semibold shadow-lg hover:shadow-xl flex items-center justify-center gap-2"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
+              </svg>
+              Add
+            </button>
+            <button
+              onClick={handleQuickView}
+              className="px-4 py-3 bg-white border-2 border-blue-600 text-blue-600 rounded-lg hover:bg-blue-50 transition-all duration-300 text-sm font-semibold shadow-lg hover:shadow-xl"
+              aria-label="Quick view"
+              title="Quick View"
+            >
+              <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 12a3 3 0 11-6 0 3 3 0 016 0z" />
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M2.458 12C3.732 7.943 7.523 5 12 5c4.478 0 8.268 2.943 9.542 7-1.274 4.057-5.064 7-9.542 7-4.477 0-8.268-2.943-9.542-7z" />
+              </svg>
+            </button>
+          </div>
         </div>
       </div>
     </Link>

@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, useNavigate, Link } from 'react-router-dom';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 
 const OrderDetails = () => {
   const { orderId } = useParams();
@@ -141,30 +143,38 @@ const OrderDetails = () => {
 
   if (!order) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-md mx-auto text-center">
-            <div className="w-32 h-32 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-16 h-16 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
-              </svg>
+      <AnimatedPage>
+        <SEO title="Order Not Found" description="The order you're looking for doesn't exist." />
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-md mx-auto text-center">
+              <div className="w-32 h-32 bg-gradient-to-br from-red-100 to-red-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-16 h-16 text-red-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold mb-4 text-gray-900">Order Not Found</h2>
+              <p className="text-gray-600 mb-8">The order you're looking for doesn't exist.</p>
+              <button
+                onClick={() => navigate('/orders')}
+                className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold"
+              >
+                Back to Orders
+              </button>
             </div>
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">Order Not Found</h2>
-            <p className="text-gray-600 mb-8">The order you're looking for doesn't exist.</p>
-            <button
-              onClick={() => navigate('/orders')}
-              className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold"
-            >
-              Back to Orders
-            </button>
           </div>
         </div>
-      </div>
+      </AnimatedPage>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
+    <AnimatedPage>
+      <SEO 
+        title={`Order ${order.id} Details`}
+        description={`View details for order ${order.id}. Track your order status and delivery information.`}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
       <div className="container mx-auto px-4">
         {/* Header */}
         <div className="max-w-5xl mx-auto mb-6">
@@ -366,7 +376,8 @@ const OrderDetails = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AnimatedPage>
   );
 };
 

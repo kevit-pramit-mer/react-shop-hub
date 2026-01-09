@@ -1,4 +1,5 @@
 import React from 'react';
+import AnimatedPage from '../components/common/AnimatedPage';
 import { Link } from 'react-router-dom';
 
 const Orders = () => {
@@ -31,10 +32,11 @@ const Orders = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
+    <AnimatedPage>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">
             My Orders
           </h1>
@@ -109,6 +111,7 @@ const Orders = () => {
         </div>
       </div>
     </div>
+    </AnimatedPage>
   );
 };
 

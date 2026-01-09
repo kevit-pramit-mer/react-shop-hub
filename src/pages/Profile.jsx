@@ -3,6 +3,7 @@ import { useSelector } from 'react-redux';
 import { selectUser } from '../redux/slices/authSlice';
 import Input from '../components/common/Input';
 import Button from '../components/common/Button';
+import AnimatedPage from '../components/common/AnimatedPage';
 import toast from 'react-hot-toast';
 
 const Profile = () => {
@@ -40,10 +41,11 @@ const Profile = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
+    <AnimatedPage>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">
             My Profile
           </h1>
@@ -221,6 +223,7 @@ const Profile = () => {
         </div>
       </div>
     </div>
+    </AnimatedPage>
   );
 };
 

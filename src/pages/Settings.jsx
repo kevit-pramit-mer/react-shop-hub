@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import AnimatedPage from '../components/common/AnimatedPage';
 import toast from 'react-hot-toast';
 
 const Settings = () => {
@@ -16,10 +17,11 @@ const Settings = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
+    <AnimatedPage>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-8">
           <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">
             Settings
           </h1>
@@ -174,6 +176,7 @@ const Settings = () => {
         </div>
       </div>
     </div>
+    </AnimatedPage>
   );
 };
 

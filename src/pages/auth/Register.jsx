@@ -3,6 +3,7 @@ import { useNavigate, Link } from 'react-router-dom';
 import { useAuth } from '../../hooks/useAuth';
 import Input from '../../components/common/Input';
 import Button from '../../components/common/Button';
+import AnimatedPage from '../../components/common/AnimatedPage';
 import { validateEmail, validatePassword, validateName } from '../../utils/validators';
 
 const Register = () => {
@@ -80,7 +81,8 @@ const Register = () => {
   };
 
   return (
-    <div className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 py-12">
+    <AnimatedPage>
+      <div className="min-h-[80vh] flex items-center justify-center bg-gradient-to-br from-blue-50 via-white to-purple-50 px-4 py-12">
       <div className="max-w-md w-full bg-white rounded-lg shadow-xl border border-gray-100 p-8">
         <h2 className="text-3xl font-bold text-center mb-6 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent">Register</h2>
 
@@ -142,7 +144,8 @@ const Register = () => {
           </Link>
         </p>
       </div>
-    </div>
+      </div>
+    </AnimatedPage>
   );
 };
 

@@ -146,11 +146,11 @@ const MegaMenu = ({ isOpen, onClose }) => {
 
                 <div className="grid grid-cols-2 gap-6">
                   {/* Category Image */}
-                  <div className="relative rounded-2xl overflow-hidden shadow-xl group">
+                  <div className="relative rounded-2xl overflow-hidden shadow-xl group h-[400px]">
                     <img
                       src={categoryImages[activeCategory]}
                       alt={formatCategoryName(activeCategory)}
-                      className="w-full h-full min-h-[400px] object-cover transition-transform duration-300 group-hover:scale-110"
+                      className="w-full h-[400px] object-cover transition-transform duration-300 group-hover:scale-110"
                     />
                     <div className="absolute inset-0 bg-gradient-to-t from-black/80 via-black/40 to-transparent flex flex-col justify-end p-6">
                       <h4 className="text-white text-2xl font-bold mb-2">

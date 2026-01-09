@@ -8,6 +8,8 @@ import ProductFilter from '../components/product/ProductFilter';
 import SearchBar from '../components/product/SearchBar';
 import ProductSkeleton from '../components/product/ProductSkeleton';
 import Loader from '../components/common/Loader';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 import { QUERY_KEYS, ITEMS_PER_PAGE } from '../utils/constants';
 
 const CategoryProducts = () => {
@@ -149,7 +151,13 @@ const CategoryProducts = () => {
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
+    <AnimatedPage>
+      <SEO 
+        title={`${formatCategoryName(categoryName)} - Shop Now`}
+        description={`Browse our collection of ${categoryName}. Find quality products at great prices with fast shipping.`}
+        keywords={`${categoryName}, buy ${categoryName}, shop ${categoryName}, online shopping`}
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
       <div className="container mx-auto px-4 py-8">
         {/* Page Header */}
         <div className="text-center mb-8 md:mb-12">
@@ -277,7 +285,8 @@ const CategoryProducts = () => {
           </main>
         </div>
       </div>
-    </div>
+      </div>
+    </AnimatedPage>
   );
 };
 

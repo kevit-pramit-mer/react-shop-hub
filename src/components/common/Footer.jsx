@@ -80,8 +80,8 @@ const Footer = () => {
           <div>
             <h4 className="text-lg font-semibold mb-4">Contact Us</h4>
             <ul className="space-y-2 text-gray-400 text-sm">
-              <li>Email: support@shophub.com</li>
-              <li>Phone: +1 234 567 8900</li>
+              <li>Email: <a href="mailto:support@shophub.com" className="hover:text-white transition-colors">support@shophub.com</a></li>
+              <li>Phone: <a href="tel:+12345678900" className="hover:text-white transition-colors">+1 234 567 8900</a></li>
               <li>Address: 123 Shop Street, City</li>
             </ul>
           </div>

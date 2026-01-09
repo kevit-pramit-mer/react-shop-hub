@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import { selectCartItems, selectCartTotals, selectCartItemCount } from '../redux/slices/cartSlice';
 import { useCart } from '../hooks/useCart';
 import Button from '../components/common/Button';
+import AnimatedPage from '../components/common/AnimatedPage';
 import { formatPrice } from '../utils/helpers';
 
 const Cart = () => {
@@ -14,38 +15,41 @@ const Cart = () => {
 
   if (items.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-16">
-        <div className="container mx-auto px-4">
-          <div className="max-w-md mx-auto text-center">
-            <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-200 rounded-full flex items-center justify-center mx-auto mb-6">
-              <svg className="w-16 h-16 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-              </svg>
+      <AnimatedPage>
+        <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-16">
+          <div className="container mx-auto px-4">
+            <div className="max-w-md mx-auto text-center">
+              <div className="w-32 h-32 bg-gradient-to-br from-blue-100 to-purple-200 rounded-full flex items-center justify-center mx-auto mb-6">
+                <svg className="w-16 h-16 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                </svg>
+              </div>
+              <h2 className="text-3xl font-bold mb-4 text-gray-900">Your Cart is Empty</h2>
+              <p className="text-gray-600 mb-8">Looks like you haven't added any products yet. Start shopping to fill your cart!</p>
+              <Link to="/">
+                <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold shadow-lg">Continue Shopping</Button>
+              </Link>
             </div>
-            <h2 className="text-3xl font-bold mb-4 text-gray-900">Your Cart is Empty</h2>
-            <p className="text-gray-600 mb-8">Looks like you haven't added any products yet. Start shopping to fill your cart!</p>
-            <Link to="/">
-              <Button className="bg-gradient-to-r from-blue-600 to-purple-600 text-white px-8 py-3 rounded-lg hover:from-blue-700 hover:to-purple-700 transition font-semibold shadow-lg">Continue Shopping</Button>
-            </Link>
           </div>
         </div>
-      </div>
+      </AnimatedPage>
     );
   }
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
-      <div className="container mx-auto px-4">
-        {/* Header */}
-        <div className="text-center mb-8">
-          <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">
-            Shopping Cart
-          </h1>
-          <p className="text-gray-600 text-lg">Review your items and proceed to checkout ({itemCount} {itemCount === 1 ? 'item' : 'items'})</p>
-        </div>
-      
-      <div className="max-w-7xl mx-auto">
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+    <AnimatedPage>
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-8">
+        <div className="container mx-auto px-4">
+          {/* Header */}
+          <div className="text-center mb-8">
+            <h1 className="text-3xl sm:text-4xl md:text-5xl font-bold mb-3 md:mb-4 bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent leading-tight pb-1">
+              Shopping Cart
+            </h1>
+            <p className="text-gray-600 text-lg">Review your items and proceed to checkout ({itemCount} {itemCount === 1 ? 'item' : 'items'})</p>
+          </div>
+        
+          <div className="max-w-7xl mx-auto">
+            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) => (
@@ -150,10 +154,11 @@ const Cart = () => {
               </Link>
             </div>
           </div>
+            </div>
+          </div>
         </div>
       </div>
-      </div>
-    </div>
+    </AnimatedPage>
   );
 };
 

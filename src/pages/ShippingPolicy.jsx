@@ -1,8 +1,16 @@
 import React from 'react';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 
 const ShippingPolicy = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
+    <AnimatedPage>
+      <SEO 
+        title="Shipping Policy"
+        description="ShopHub's shipping policy. Learn about delivery timelines, costs, tracking, international shipping, and our commitment to getting orders to you safely."
+        keywords="shipping policy, delivery, tracking, free shipping, international shipping"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -288,8 +296,8 @@ const ShippingPolicy = () => {
                 Our shipping support team is ready to help with tracking, delivery issues, or any shipping questions:
               </p>
               <ul className="space-y-2 text-lg">
-                <li>📧 Email: shipping@shophub.com</li>
-                <li>📞 Phone: +1 234 567 8900</li>
+                <li className="flex items-center">📧 Email: <a href="mailto:shipping@shophub.com" className="ml-2 hover:underline">shipping@shophub.com</a></li>
+                <li className="flex items-center">📞 Phone: <a href="tel:+12345678900" className="ml-2 hover:underline">+1 234 567 8900</a></li>
                 <li>💬 Live Chat: Available 9 AM - 6 PM (Mon-Sat)</li>
                 <li>📍 Address: 123 Shop Street, City, State 12345</li>
               </ul>
@@ -297,7 +305,8 @@ const ShippingPolicy = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AnimatedPage>
   );
 };
 

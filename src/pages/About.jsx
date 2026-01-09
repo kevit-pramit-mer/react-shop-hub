@@ -1,9 +1,17 @@
 import React from 'react';
+import AnimatedPage from '../components/common/AnimatedPage';
+import SEO from '../components/common/SEO';
 import { APP_NAME } from '../utils/constants';
 
 const About = () => {
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
+    <AnimatedPage>
+      <SEO 
+        title="About Us"
+        description="Learn about ShopHub - your one-stop shop for quality products at great prices. Discover our mission, values, and commitment to excellent customer service."
+        keywords="about us, shophub, mission, values, quality products, customer service"
+      />
+      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50 py-12">
       <div className="container mx-auto px-4">
         <div className="max-w-6xl mx-auto">
           {/* Header */}
@@ -98,7 +106,8 @@ const About = () => {
           </div>
         </div>
       </div>
-    </div>
+      </div>
+    </AnimatedPage>
   );
 };
 
