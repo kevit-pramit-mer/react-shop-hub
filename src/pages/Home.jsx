@@ -146,7 +146,7 @@ const Home = () => {
 
           {/* Search and Sort Bar */}
           <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
-            <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-4 md:gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-[3fr_1fr] gap-4 md:gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                   <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">

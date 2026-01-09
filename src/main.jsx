@@ -7,10 +7,12 @@ import { ReactQueryDevtools } from '@tanstack/react-query-devtools';
 import { HelmetProvider } from 'react-helmet-async';
 import { Toaster } from 'react-hot-toast';
 import './index.css';
+import './styles/accessibility.css';
 import App from './App.jsx';
 import { store } from './redux/store';
 import { queryClient } from './queryClient';
 import ErrorBoundary from './components/common/ErrorBoundary';
+import { AccessibilityProvider } from './contexts/AccessibilityContext';
 
 createRoot(document.getElementById('root')).render(
   <StrictMode>
@@ -18,11 +20,13 @@ createRoot(document.getElementById('root')).render(
       <Provider store={store}>
         <QueryClientProvider client={queryClient}>
           <HelmetProvider>
-            <BrowserRouter>
-              <App />
-              <Toaster position="top-right" />
-              <ReactQueryDevtools initialIsOpen={false} />
-            </BrowserRouter>
+            <AccessibilityProvider>
+              <BrowserRouter>
+                <App />
+                <Toaster position="top-right" />
+                <ReactQueryDevtools initialIsOpen={false} />
+              </BrowserRouter>
+            </AccessibilityProvider>
           </HelmetProvider>
         </QueryClientProvider>
       </Provider>
