@@ -24,7 +24,8 @@ createRoot(document.getElementById('root')).render(
               <BrowserRouter>
                 <App />
                 <Toaster position="top-right" />
-                <ReactQueryDevtools initialIsOpen={false} />
+                {/* Disable the React Query Devtools in production */}
+                {/* <ReactQueryDevtools initialIsOpen={false} /> */}
               </BrowserRouter>
             </AccessibilityProvider>
           </HelmetProvider>
