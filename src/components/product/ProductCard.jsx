@@ -28,23 +28,7 @@ const ProductCard = ({ product }) => {
   const handleAddToCart = (e) => {
     e.preventDefault();
     dispatch(addToCart(product));
-    toast.success(
-      (t) => (
-        <div className="flex items-center gap-2">
-          <span>Added to cart!</span>
-          <button
-            onClick={() => {
-              toast.dismiss(t.id);
-              window.location.href = '/cart';
-            }}
-            className="text-blue-600 font-semibold hover:underline"
-          >
-            View Cart
-          </button>
-        </div>
-      ),
-      { duration: 4000 }
-    );
+    toast.success('Added to cart!');
   };
 
   const handleToggleWishlist = (e) => {

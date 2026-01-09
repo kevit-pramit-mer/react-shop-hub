@@ -29,23 +29,7 @@ const QuickViewModal = ({ productId }) => {
 
   const handleAddToCart = () => {
     dispatch(addToCart({ ...product, quantity }));
-    toast.success(
-      (t) => (
-        <div className="flex items-center gap-2">
-          <span>Added to cart!</span>
-          <button
-            onClick={() => {
-              toast.dismiss(t.id);
-              window.location.href = '/cart';
-            }}
-            className="text-blue-600 font-semibold hover:underline"
-          >
-            View Cart
-          </button>
-        </div>
-      ),
-      { duration: 4000 }
-    );
+    toast.success(`${quantity} item(s) added to cart!`);
   };
 
   const handleToggleWishlist = () => {
