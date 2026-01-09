@@ -98,33 +98,35 @@ const ProductDetails = () => {
       <div className="bg-gray-50 min-h-screen">
         <div className="container mx-auto px-4 py-8">
           
-          {/* Page Header */}
-          <div className="text-center mb-8 md:mb-12">
-            {/* Breadcrumbs */}
-            <nav className="flex space-x-2 text-sm">
+          {/* Breadcrumbs - Mobile Optimized */}
+          <nav className="mb-6 overflow-x-auto">
+            <div className="flex items-center space-x-2 text-sm min-w-max">
               <button 
                 onClick={() => navigate('/')} 
-                className="text-gray-600 hover:text-blue-600 transition"
+                className="text-gray-600 hover:text-blue-600 transition flex items-center"
               >
-                Home
+                <svg className="w-4 h-4 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                </svg>
+                <span className="hidden sm:inline">Home</span>
               </button>
-              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
               <button 
                 onClick={() => navigate(`/products/${getCategorySlug(product.category)}`)} 
-                className="text-gray-600 hover:text-blue-600 transition"
+                className="text-gray-600 hover:text-blue-600 transition truncate"
               >
                 {capitalize(product.category)}
               </button>
-              <svg className="w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <svg className="w-4 h-4 text-gray-400 flex-shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" />
               </svg>
-              <span className="text-blue-600 font-semibold">
-                {product.title.length > 50 ? product.title.substring(0, 50) + '...' : product.title}
+              <span className="text-blue-600 font-medium truncate max-w-[200px] sm:max-w-none">
+                {product.title.length > 30 ? product.title.substring(0, 30) + '...' : product.title}
               </span>
-            </nav>
-          </div>
+            </div>
+          </nav>
 
         {/* Product Details */}
         <div className="bg-white rounded-2xl shadow-2xl p-8 border border-gray-100 mb-8">
@@ -213,28 +215,29 @@ const ProductDetails = () => {
                 </div>
               </div>
 
-              {/* Action Buttons */}
-              <div className="flex gap-4">
-                <Button onClick={handleAddToCart} className="flex-1" size="large">
+              {/* Action Buttons - Mobile Optimized */}
+              <div className="flex flex-col sm:flex-row gap-3">
+                <Button onClick={handleAddToCart} className="flex-1 justify-center" size="large">
                   <svg className="w-5 h-5 mr-2 inline-block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 014 0z" />
                   </svg>
                   Add to Cart
                 </Button>
-                <Button onClick={handleBuyNow} variant="success" className="flex-1" size="large">
+                <Button onClick={handleBuyNow} variant="success" className="flex-1 justify-center" size="large">
                   Buy Now
                 </Button>
                 <button
                   onClick={handleToggleWishlist}
-                  className={`px-4 py-2 border-2 rounded-lg transition-colors ${
+                  className={`px-4 py-3 border-2 rounded-lg transition-colors sm:w-auto w-full flex items-center justify-center ${
                     isInWishlist
                       ? 'border-red-500 text-red-500 bg-red-50'
                       : 'border-gray-300 text-gray-600 hover:border-red-500 hover:text-red-500'
                   }`}
                 >
-                  <svg className="w-6 h-6" fill={isInWishlist ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
+                  <svg className="w-6 h-6 sm:mr-0 mr-2" fill={isInWishlist ? 'currentColor' : 'none'} stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
                   </svg>
+                  <span className="sm:hidden">Add to Wishlist</span>
                 </button>
               </div>
             </div>

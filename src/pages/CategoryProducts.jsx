@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback, useRef } from 'react';
-import { useParams, Link } from 'react-router-dom';
+import React, { useEffect, useCallback, useRef, useMemo } from 'react';
+import { useParams, Link, useNavigate } from 'react-router-dom';
 import { useInfiniteQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../services/productService';
 import { useProductFilters } from '../hooks/useProductFilters';
@@ -14,6 +14,7 @@ import { QUERY_KEYS, ITEMS_PER_PAGE } from '../utils/constants';
 
 const CategoryProducts = () => {
   const { categorySlug } = useParams();
+  const navigate = useNavigate();
   
   // Convert slug back to category name
   const getCategoryFromSlug = (slug) => {
@@ -24,6 +25,17 @@ const CategoryProducts = () => {
       'womens-clothing': "women's clothing"
     };
     return slugMap[slug] || slug;
+  };
+
+  // Convert category name to slug
+  const getCategorySlug = (category) => {
+    const slugMap = {
+      'electronics': 'electronics',
+      'jewelery': 'jewelery',
+      "men's clothing": 'mens-clothing',
+      "women's clothing": 'womens-clothing'
+    };
+    return slugMap[category.toLowerCase()] || category.toLowerCase().replace(/[^a-z0-9]+/g, '-');
   };
 
   const categoryName = getCategoryFromSlug(categorySlug);
@@ -69,18 +81,82 @@ const CategoryProducts = () => {
   // Get all products from pages
   const allProducts = data?.pages.flatMap(page => page.products) || [];
 
-  // Use product filters hook - pass category name so checkbox is pre-selected
-  // Note: Products are already filtered by category in the query, so we won't double-filter
+  // For category pages, don't use category filter from useProductFilters
+  // Since products are already filtered by category from the API
   const {
     filters,
     sortBy,
-    filteredProducts,
-    toggleCategory,
     setPriceRange,
     setRating,
     setSearchQuery,
     setSortBy,
-  } = useProductFilters(allProducts, [categoryName]); // Pre-select category checkbox
+  } = useProductFilters(allProducts, []);
+
+  // Override filters to always show current category as selected
+  const categoryPageFilters = {
+    ...filters,
+    categories: [categoryName], // Always show current category as selected
+  };
+
+  // Apply filters manually (excluding category filter since products are pre-filtered)
+  const filteredProducts = useMemo(() => {
+    let result = [...allProducts];
+
+    // Search filter
+    if (filters.searchQuery) {
+      const query = filters.searchQuery.toLowerCase();
+      result = result.filter(product =>
+        product.title.toLowerCase().includes(query) ||
+        product.description.toLowerCase().includes(query) ||
+        product.category.toLowerCase().includes(query)
+      );
+    }
+
+    // Price range filter
+    if (filters.priceRange) {
+      const { min, max } = filters.priceRange;
+      result = result.filter(product => {
+        const price = product.price;
+        return (!min || price >= min) && (!max || price <= max);
+      });
+    }
+
+    // Rating filter
+    if (filters.rating) {
+      result = result.filter(product => 
+        (product.rating?.rate || 0) >= filters.rating
+      );
+    }
+
+    // Sort products
+    if (sortBy !== 'default') {
+      result = [...result].sort((a, b) => {
+        switch (sortBy) {
+          case 'price-asc':
+            return a.price - b.price;
+          case 'price-desc':
+            return b.price - a.price;
+          case 'rating-desc':
+            return (b.rating?.rate || 0) - (a.rating?.rate || 0);
+          case 'name-asc':
+            return a.title.localeCompare(b.title);
+          case 'name-desc':
+            return b.title.localeCompare(a.title);
+          default:
+            return 0;
+        }
+      });
+    }
+
+    return result;
+  }, [allProducts, filters, sortBy]);
+
+  // Handle category change - redirect to new category page
+  const handleCategoryToggle = (category) => {
+    // Navigate to the new category page
+    const newSlug = getCategorySlug(category);
+    navigate(`/products/${newSlug}`);
+  };
 
   // Ref for infinite scroll
   const loadMoreRef = useRef(null);
@@ -127,11 +203,14 @@ const CategoryProducts = () => {
 
   if (isLoading && allProducts.length === 0) {
     return (
-      <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-purple-50">
-        <div className="container mx-auto px-4 py-8">
-          <div className="grid grid-cols-1 md:grid-cols-4 gap-6">
+      <div className="container mx-auto px-4 py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6">
+          <div className="lg:col-span-1">
+            <div className="bg-gray-200 h-96 rounded-lg animate-pulse"></div>
+          </div>
+          <div className="lg:col-span-3">
             {[...Array(8)].map((_, index) => (
-              <ProductSkeleton key={index} />
+              <ProductSkeleton key={index} count={9}/>
             ))}
           </div>
         </div>
@@ -190,7 +269,7 @@ const CategoryProducts = () => {
 
         {/* Search and Sort Bar */}
         <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
-          <div className="grid grid-cols-1 md:grid-cols-[75%_25%] gap-6">
+          <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-4 md:gap-6">
             <div>
               <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                 <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -208,20 +287,18 @@ const CategoryProducts = () => {
                 </svg>
                 Sort By
               </label>
-              <div className="max-w-xs">
-                <select
-                  value={sortBy}
-                  onChange={(e) => setSortBy(e.target.value)}
-                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
-                >
-                  <option value="default">Default</option>
-                  <option value="price-asc">Price: Low to High</option>
-                  <option value="price-desc">Price: High to Low</option>
-                  <option value="rating-desc">Rating: High to Low</option>
-                  <option value="name-asc">Name: A-Z</option>
-                  <option value="name-desc">Name: Z-A</option>
-                </select>
-              </div>
+              <select
+                value={sortBy}
+                onChange={(e) => setSortBy(e.target.value)}
+                className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+              >
+                <option value="default">Default</option>
+                <option value="price-asc">Price: Low to High</option>
+                <option value="price-desc">Price: High to Low</option>
+                <option value="rating-desc">Rating: High to Low</option>
+                <option value="name-asc">Name: A-Z</option>
+                <option value="name-desc">Name: Z-A</option>
+              </select>
             </div>
           </div>
         </div>
@@ -231,8 +308,8 @@ const CategoryProducts = () => {
           {/* Filters Sidebar */}
           <aside className="lg:col-span-1">
             <ProductFilter
-              filters={filters}
-              onCategoryToggle={toggleCategory}
+              filters={categoryPageFilters}
+              onToggleCategory={handleCategoryToggle}
               onPriceRangeChange={setPriceRange}
               onRatingChange={setRating}
             />
@@ -276,8 +353,13 @@ const CategoryProducts = () => {
 
                 {/* No more products message */}
                 {!hasNextPage && filteredProducts.length > 0 && (
-                  <div className="text-center py-8">
-                    <p className="text-gray-600">You've reached the end of the list</p>
+                  <div className="mt-8 py-8 text-center">
+                    <div className="inline-flex items-center justify-center px-6 py-3 bg-gray-100 rounded-full">
+                      <svg className="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z" />
+                      </svg>
+                      <span className="text-gray-600 font-medium">You've reached the end!</span>
+                    </div>
                   </div>
                 )}
               </>

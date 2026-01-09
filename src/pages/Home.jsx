@@ -1,5 +1,5 @@
-import React, { useEffect, useCallback, useRef } from 'react';
-import { useInfiniteQuery } from '@tanstack/react-query';
+import React, { useEffect, useCallback, useRef, useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 import { fetchProducts } from '../services/productService';
 import { useProductFilters } from '../hooks/useProductFilters';
 import ProductGrid from '../components/product/ProductGrid';
@@ -9,37 +9,24 @@ import ProductSkeleton from '../components/product/ProductSkeleton';
 import Loader from '../components/common/Loader';
 import AnimatedPage from '../components/common/AnimatedPage';
 import SEO from '../components/common/SEO';
-import { QUERY_KEYS, ITEMS_PER_PAGE, SORT_OPTIONS } from '../utils/constants';
+import { QUERY_KEYS, SORT_OPTIONS } from '../utils/constants';
+
+const ITEMS_PER_PAGE = 6;
 
 const Home = () => {
-  // Fetch products with TanStack Query
+  const [displayCount, setDisplayCount] = useState(ITEMS_PER_PAGE);
+  const [isLoadingMore, setIsLoadingMore] = useState(false);
+  
+  // Fetch ALL products at once (for proper filtering)
   const {
-    data,
-    fetchNextPage,
-    hasNextPage,
-    isFetchingNextPage,
+    data: allProducts = [],
     isLoading,
     isError,
     error,
-  } = useInfiniteQuery({
+  } = useQuery({
     queryKey: [QUERY_KEYS.PRODUCTS],
-    queryFn: async ({ pageParam = 0 }) => {
-      const allProducts = await fetchProducts();
-      const start = pageParam;
-      const end = pageParam + ITEMS_PER_PAGE;
-      
-      return {
-        products: allProducts.slice(start, end),
-        nextCursor: end < allProducts.length ? end : undefined,
-        hasMore: end < allProducts.length,
-      };
-    },
-    getNextPageParam: (lastPage) => lastPage.nextCursor,
-    initialPageParam: 0,
+    queryFn: fetchProducts,
   });
-
-  // Get all products from pages
-  const allProducts = data?.pages.flatMap(page => page.products) || [];
 
   // Use product filters hook
   const {
@@ -55,35 +42,51 @@ const Home = () => {
     hasActiveFilters,
   } = useProductFilters(allProducts);
 
-  // Infinite scroll with scroll event listener
+  // Reset display count when filters change
+  useEffect(() => {
+    setDisplayCount(ITEMS_PER_PAGE);
+  }, [filters, sortBy]);
+
+  // Products to display (paginated)
+  const displayedProducts = filteredProducts.slice(0, displayCount);
+  const hasMore = displayCount < filteredProducts.length;
+
+  // Load more products with smooth loading effect
+  const loadMore = useCallback(() => {
+    if (hasMore && !isLoadingMore) {
+      setIsLoadingMore(true);
+      // Add a small delay to show loading state
+      setTimeout(() => {
+        setDisplayCount(prev => Math.min(prev + ITEMS_PER_PAGE, filteredProducts.length));
+        setIsLoadingMore(false);
+      }, 800);
+    }
+  }, [hasMore, isLoadingMore, filteredProducts.length]);
+
+  // Infinite scroll
   const loadMoreRef = useRef(null);
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (!loadMoreRef.current || !hasNextPage || isFetchingNextPage) return;
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting && hasMore && !isLoadingMore) {
+          loadMore();
+        }
+      },
+      { threshold: 0.1 }
+    );
 
-      const element = loadMoreRef.current;
-      const rect = element.getBoundingClientRect();
-      const isVisible = rect.top <= window.innerHeight && rect.bottom >= 0;
+    const currentRef = loadMoreRef.current;
+    if (currentRef) {
+      observer.observe(currentRef);
+    }
 
-      if (isVisible) {
-        console.log('✅ Trigger visible! Loading more products...');
-        fetchNextPage();
+    return () => {
+      if (currentRef) {
+        observer.unobserve(currentRef);
       }
     };
-
-    // Add scroll listener
-    window.addEventListener('scroll', handleScroll);
-    // Check on mount
-    handleScroll();
-
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [hasNextPage, isFetchingNextPage, fetchNextPage]);
-
-  // Handle search with useCallback to prevent unnecessary re-renders
-  const handleSearch = useCallback((query) => {
-    setSearchQuery(query);
-  }, [setSearchQuery]);
+  }, [hasMore, loadMore, isLoadingMore]);
 
   // Loading state
   if (isLoading) {
@@ -143,7 +146,7 @@ const Home = () => {
 
           {/* Search and Sort Bar */}
           <div className="bg-white rounded-2xl shadow-xl p-6 mb-8 border border-gray-100">
-            <div className="grid grid-cols-1 md:grid-cols-[75%_25%] gap-6">
+            <div className="grid grid-cols-1 md:grid-cols-[2fr_1fr] gap-4 md:gap-6">
               <div>
                 <label className="block text-sm font-semibold text-gray-700 mb-2 flex items-center">
                   <svg className="w-4 h-4 mr-2 text-blue-600" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -161,19 +164,17 @@ const Home = () => {
                   </svg>
                   Sort By
                 </label>
-                <div className="max-w-xs">
-                  <select
-                    value={sortBy}
-                    onChange={(e) => setSortBy(e.target.value)}
-                    className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
-                  >
-                    {SORT_OPTIONS.map((option) => (
-                      <option key={option.value} value={option.value}>
-                        {option.label}
-                      </option>
-                    ))}
-                  </select>
-                </div>
+                <select
+                  value={sortBy}
+                  onChange={(e) => setSortBy(e.target.value)}
+                  className="w-full px-4 py-3 border border-gray-300 rounded-xl focus:ring-2 focus:ring-blue-500 focus:border-transparent transition bg-white"
+                >
+                  {SORT_OPTIONS.map((option) => (
+                    <option key={option.value} value={option.value}>
+                      {option.label}
+                    </option>
+                  ))}
+                </select>
               </div>
             </div>
           </div>
@@ -246,24 +247,41 @@ const Home = () => {
             </div>
 
             {/* Product Grid */}
-            <ProductGrid products={filteredProducts} loading={false} />
+            <ProductGrid products={displayedProducts} loading={false} />
 
             {/* Infinite Scroll Trigger & Loader */}
-            {hasNextPage && (
+            {hasMore && (
               <div ref={loadMoreRef} className="mt-8 mb-8">
-                {isFetchingNextPage ? (
+                {isLoadingMore ? (
                   <div className="flex flex-col items-center justify-center py-12">
-                    <Loader size="medium" />
-                    <p className="mt-4 text-gray-600 text-sm">Loading more products...</p>
+                    <div className="relative">
+                      <Loader size="medium" />
+                      <div className="absolute inset-0 flex items-center justify-center">
+                        <div className="w-16 h-16 border-4 border-blue-200 border-t-blue-600 rounded-full animate-spin"></div>
+                      </div>
+                    </div>
+                    <p className="mt-6 text-gray-600 text-sm font-medium animate-pulse">Loading more amazing products...</p>
+                    <div className="mt-3 flex space-x-1">
+                      <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '0ms' }}></div>
+                      <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '150ms' }}></div>
+                      <div className="w-2 h-2 bg-blue-600 rounded-full animate-bounce" style={{ animationDelay: '300ms' }}></div>
+                    </div>
                   </div>
                 ) : (
-                  <div className="h-4"></div>
+                  <div className="h-20 flex items-center justify-center">
+                    <button
+                      onClick={loadMore}
+                      className="px-6 py-3 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-lg font-semibold shadow-lg hover:shadow-xl transition-all duration-300 hover:scale-105"
+                    >
+                      Load More Products
+                    </button>
+                  </div>
                 )}
               </div>
             )}
 
             {/* End of List */}
-            {!hasNextPage && allProducts.length > 0 && (
+            {!hasMore && filteredProducts.length > 0 && (
               <div className="mt-8 py-8 text-center">
                 <div className="inline-flex items-center justify-center px-6 py-3 bg-gray-100 rounded-full">
                   <svg className="w-5 h-5 text-gray-400 mr-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">

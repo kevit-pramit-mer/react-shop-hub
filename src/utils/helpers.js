@@ -127,11 +127,26 @@ export const filterProducts = (products, filters) => {
   
   let filtered = [...products];
   
-  // Filter by category
+  // Debug logging
+  console.log('🔍 Filter Debug:', {
+    totalProducts: products.length,
+    filterCategories: filters.categories,
+    sampleProductCategory: products[0]?.category,
+    filters: filters
+  });
+  
+  // Filter by category (case-insensitive)
   if (filters.categories && filters.categories.length > 0) {
-    filtered = filtered.filter(product => 
-      filters.categories.includes(product.category)
-    );
+    filtered = filtered.filter(product => {
+      const match = filters.categories.some(cat => 
+        cat.toLowerCase() === product.category.toLowerCase()
+      );
+      if (!match) {
+        console.log('❌ No match:', product.category, 'not in', filters.categories);
+      }
+      return match;
+    });
+    console.log('✅ After category filter:', filtered.length, 'products');
   }
   
   // Filter by price range
@@ -159,6 +174,7 @@ export const filterProducts = (products, filters) => {
     );
   }
   
+  console.log('📦 Final filtered products:', filtered.length);
   return filtered;
 };
 

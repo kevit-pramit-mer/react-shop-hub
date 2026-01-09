@@ -296,16 +296,16 @@ const Checkout = () => {
               {/* Products */}
               <div className="space-y-4 mb-6 max-h-64 overflow-y-auto">
                 {items.map(item => (
-                  <div key={item.id} className="flex gap-4">
+                  <div key={item.id} className="flex gap-3 sm:gap-4">
                     <img
                       src={item.image}
                       alt={item.title}
-                      className="w-16 h-16 object-contain rounded"
+                      className="w-12 h-12 sm:w-16 sm:h-16 object-contain rounded flex-shrink-0"
                     />
-                    <div className="flex-1">
-                      <p className="font-medium text-sm line-clamp-2">{item.title}</p>
-                      <p className="text-sm text-gray-600">Qty: {item.quantity}</p>
-                      <p className="font-semibold text-primary">
+                    <div className="flex-1 min-w-0">
+                      <p className="font-medium text-xs sm:text-sm line-clamp-2">{item.title}</p>
+                      <p className="text-xs sm:text-sm text-gray-600">Qty: {item.quantity}</p>
+                      <p className="font-semibold text-primary text-sm sm:text-base">
                         {formatPrice(item.price * item.quantity)}
                       </p>
                     </div>

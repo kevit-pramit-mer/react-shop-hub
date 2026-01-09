@@ -53,9 +53,9 @@ const Cart = () => {
           {/* Cart Items */}
           <div className="lg:col-span-2 space-y-4">
             {items.map((item) => (
-              <div key={item.id} className="bg-white rounded-2xl shadow-xl border border-gray-100 p-6 hover:shadow-2xl transition">
-                <div className="flex gap-4">
-                  <div className="w-24 h-24 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl flex items-center justify-center flex-shrink-0 border border-gray-200">
+              <div key={item.id} className="bg-white rounded-2xl shadow-xl border border-gray-100 p-4 sm:p-6 hover:shadow-2xl transition">
+                <div className="flex flex-col sm:flex-row gap-4">
+                  <div className="w-full sm:w-24 h-32 sm:h-24 bg-gradient-to-br from-gray-50 to-gray-100 rounded-xl flex items-center justify-center flex-shrink-0 border border-gray-200">
                     <img
                       src={item.image}
                       alt={item.title}
@@ -63,27 +63,27 @@ const Cart = () => {
                     />
                   </div>
                   <div className="flex-grow">
-                    <h3 className="font-semibold text-lg mb-2 text-gray-900">{item.title}</h3>
-                    <p className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">{formatPrice(item.price)}</p>
-                    <div className="flex items-center gap-4">
-                      <div className="flex items-center border-2 border-gray-300 rounded-lg">
+                    <h3 className="font-semibold text-base sm:text-lg mb-2 text-gray-900">{item.title}</h3>
+                    <p className="text-xl sm:text-2xl font-bold bg-gradient-to-r from-blue-600 to-purple-600 bg-clip-text text-transparent mb-3">{formatPrice(item.price)}</p>
+                    <div className="flex flex-col sm:flex-row items-start sm:items-center gap-3 sm:gap-4">
+                      <div className="flex items-center border-2 border-gray-300 rounded-lg w-full sm:w-auto">
                         <button
                           onClick={() => decrementQuantity(item.id)}
-                          className="px-4 py-2 hover:bg-gray-100 transition font-semibold text-gray-700"
+                          className="px-4 py-2 hover:bg-gray-100 transition font-semibold text-gray-700 flex-1 sm:flex-none"
                         >
                           -
                         </button>
-                        <span className="px-6 py-2 border-x-2 border-gray-300 font-bold text-gray-900">{item.quantity}</span>
+                        <span className="px-6 py-2 border-x-2 border-gray-300 font-bold text-gray-900 text-center flex-1 sm:flex-none">{item.quantity}</span>
                         <button
                           onClick={() => incrementQuantity(item.id)}
-                          className="px-4 py-2 hover:bg-gray-100 transition font-semibold text-gray-700"
+                          className="px-4 py-2 hover:bg-gray-100 transition font-semibold text-gray-700 flex-1 sm:flex-none"
                         >
                           +
                         </button>
                       </div>
                       <button
                         onClick={() => removeFromCart(item.id)}
-                        className="text-red-500 hover:text-red-700 text-sm font-semibold flex items-center gap-1 transition"
+                        className="text-red-500 hover:text-red-700 text-sm font-semibold flex items-center gap-1 transition w-full sm:w-auto justify-center sm:justify-start py-2 sm:py-0"
                       >
                         <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
                           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16" />
