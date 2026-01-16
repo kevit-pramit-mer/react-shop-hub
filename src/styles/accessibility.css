@@ -160,15 +160,3 @@ input[type="radio"]:focus {
   outline: 2px solid #3b82f6;
   outline-offset: 2px;
 }
-
-/* Ensure adequate touch targets (minimum 44x44px) */
-@media (pointer: coarse) {
-  button,
-  a,
-  input[type="checkbox"],
-  input[type="radio"],
-  select {
-    min-height: 44px;
-    min-width: 44px;
-  }
-}
